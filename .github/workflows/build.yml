@@ -1,0 +1,42 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  xgo:
+    strategy:
+      matrix:
+        goos: [linux, windows]
+        goarch: [amd64, arm64]
+        exclude:
+          - goos: windows
+            goarch: arm64
+      fail-fast: true
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+      -
+        name: Build
+        uses: crazy-max/ghaction-xgo@v3
+        with:
+          xgo_version: latest
+          go_version: 1.21
+          dest: build
+          prefix: go-chatgpt-api
+          targets: ${{ matrix.goos }}/${{ matrix.goarch }}
+          v: true
+          x: false
+          race: false
+          ldflags: -s -w --extldflags "-static -fpic"
+          buildmode: default
+          trimpath: true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.goos }}_${{ matrix.goarch }}
+          path: build/*

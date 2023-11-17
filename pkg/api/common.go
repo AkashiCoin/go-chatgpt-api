@@ -157,8 +157,10 @@ func Proxy(c *gin.Context) {
 		c.AbortWithStatusJSON(resp.StatusCode, responseMap)
 		return
 	}
-	for _, setCookie := range resp.Header.Values("Set-Cookie") {
-		c.Writer.Header().Add("Set-Cookie", setCookie)
+	for k, v := range resp.Header {
+		for _, value := range v {
+			c.Writer.Header().Set(k, value)
+		}
 	}
 	io.Copy(c.Writer, resp.Body)
 }
