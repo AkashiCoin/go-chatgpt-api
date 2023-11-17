@@ -2,9 +2,9 @@ package bootstrap
 
 import (
 	"fmt"
-	"github.com/AkashiCoin/gin-template/cmd/flags"
-	"github.com/AkashiCoin/gin-template/internal/conf"
-	"github.com/AkashiCoin/gin-template/internal/db"
+	"github.com/AkashiCoin/go-chatgpt-api/cmd/flags"
+	"github.com/AkashiCoin/go-chatgpt-api/internal/conf"
+	"github.com/AkashiCoin/go-chatgpt-api/internal/db"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"

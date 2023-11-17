@@ -1,7 +1,7 @@
 package conf
 
 import (
-	"github.com/AkashiCoin/gin-template/cmd/flags"
+	"github.com/AkashiCoin/go-chatgpt-api/cmd/flags"
 	"path/filepath"
 )
 
@@ -37,12 +37,24 @@ type LogConfig struct {
 	Compress   bool   `json:"compress" env:"COMPRESS"`
 }
 
+type SessionConfig struct {
+	Username     string `json:"username" env:"USERNAME"`
+	Password     string `json:"password" env:"PASSWORD"`
+	AccessToken  string `json:"access_token" env:"ACCESS_TOKEN"`
+	SessionToken string `json:"session_token" env:"SESSION_TOKEN"`
+	Puid         string `json:"puid" env:"PUID"`
+}
+
 type Config struct {
-	Force    bool      `json:"force"`
-	Cdn      string    `json:"cdn" env:"CDN"`
-	Scheme   Scheme    `json:"scheme"`
-	Database Database  `json:"database"`
-	Log      LogConfig `json:"log"`
+	Force          bool          `json:"force"`
+	Cdn            string        `json:"cdn" env:"CDN"`
+	Proxy          string        `json:"proxy" env:"PROXY"`
+	AutoContinue   bool          `json:"auto_continue" env:"AUTO_CONTINUE"`
+	ArkoseTokenUrl string        `json:"arkose_token_url" env:"ARKOSE_TOKEN_URL"`
+	Session        SessionConfig `json:"session"`
+	Scheme         Scheme        `json:"scheme"`
+	Database       Database      `json:"database"`
+	Log            LogConfig     `json:"log"`
 }
 
 func DefaultConfig() *Config {

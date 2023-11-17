@@ -7,7 +7,7 @@ import (
 
 var (
 	StartTime = time.Now().Unix()
-	AppName   = "gin-template"
+	AppName   = "go-chatgpt-api"
 	Version   = "dev"
 )
 

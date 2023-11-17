@@ -1,9 +1,9 @@
 package bootstrap
 
 import (
-	"github.com/AkashiCoin/gin-template/cmd/flags"
-	"github.com/AkashiCoin/gin-template/internal/conf"
-	"github.com/AkashiCoin/gin-template/pkg/utils"
+	"github.com/AkashiCoin/go-chatgpt-api/cmd/flags"
+	"github.com/AkashiCoin/go-chatgpt-api/internal/conf"
+	"github.com/AkashiCoin/go-chatgpt-api/pkg/utils"
 	"github.com/natefinch/lumberjack"
 	"github.com/sirupsen/logrus"
 	"io"

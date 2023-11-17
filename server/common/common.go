@@ -1,8 +1,8 @@
 package common
 
 import (
-	"github.com/AkashiCoin/gin-template/cmd/flags"
-	"github.com/AkashiCoin/gin-template/internal/conf"
+	"github.com/AkashiCoin/go-chatgpt-api/cmd/flags"
+	"github.com/AkashiCoin/go-chatgpt-api/internal/conf"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"strings"

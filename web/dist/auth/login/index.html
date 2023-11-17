@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #FFACAC;
+            overflow: hidden;
+        }
+        ul {
+            user-select: none;
+            text-align: center;
+            overflow: hidden;
+            height: 3rem;
+        }
+        li {
+            padding: 1rem;
+            list-style: none;
+            transition: transform 0.25s linear;
+        }
+        input {
+            background-image: none;
+            border: 0;
+            color: inherit;
+            font: inherit;
+            margin: 0;
+            outline: 0;
+            padding: 0;
+            -webkit-transition: background-color 0.3s;
+            -o-transition: background-color 0.3s;
+            transition: background-color 0.3s;
+        }
+        .form_box{
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 20rem;
+        }
+        .form_wrapper{
+            position: relative;
+        }
+        .form_field{
+            display: flex;
+            margin-bottom: 0.875rem;
+        }
+        .form_field > label {
+            background-color: #FFEBB4;
+            padding: 1rem 1.2rem;
+            border-radius: 0.25rem;
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+        .form_field > input {
+            width: 100%;
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            padding: 1rem;
+            background-color: #FBFFB1;
+            border-radius: 0.25rem;
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+        } 
+        .form_field > input:hover, .form_field > input:focus {
+            background-color: #eff588;
+        } 
+        .form_field > a {
+            position: relative;
+            width: 100%;
+            height: 3rem;
+            background-color: #ea4c88;
+            color: #eee;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s linear;
+            z-index: 999;
+        }
+        .form_field > a::before, .form_field > a::after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 50%;
+            height: 100%;
+            left: 25%;
+            transition: all ease-in-out 0.5s;
+            background-repeat: no-repeat;
+        }
+
+        .form_field > a::before{
+            display: none;
+            top: -50%;
+            background-image:  
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle,  transparent 20%, #ff0081 20%, transparent 30%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%), 
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle,  transparent 10%, #ff0081 15%, transparent 20%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%);
+            background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
+        }
+        
+        .form_field > a::after{
+            display: none;
+            bottom: -50%;
+            background-image:  
+            radial-gradient(circle, #ff0081 20%, transparent 20%), 
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle,  transparent 10%, #ff0081 15%, transparent 20%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%),
+            radial-gradient(circle, #ff0081 20%, transparent 20%);
+            background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+        }
+
+        .form_field > a.animate:before {
+            display: block;
+            animation: topBubbles ease-in-out 0.75s forwards;
+        }
+        .form_field > a.animate:after {
+            display: block;
+            animation: bottomBubbles ease-in-out 0.75s forwards;
+        }
+
+        .form_field > a:hover {
+            background-color: #d44179;
+        }
+        .form_field > a:active {
+            transform: scale(0.97);
+        }
+        .loading {
+            pointer-events: none !important;
+        }
+        .loading > ul > li{
+            transform: translateY(-100%);
+        }
+        .icon {
+            block-size: 1em;
+            display: inline-block;
+            fill: #FFBFA9;
+            inline-size: 1em;
+            vertical-align: middle;
+        }
+        .hidden {
+            border: 0;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+        .form_title{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: absolute;
+            height: 16rem;
+            overflow: hidden;
+            top: -12rem;
+            z-index: -9999;
+        }
+        .title_text{
+            width: 14rem;
+            line-height: 3rem;
+            position: relative;
+            transition: all 0.35s ease-in-out;
+            transform-origin: center 0;
+            color: #fff;
+            text-align: center;
+        }
+        .rotate_text_username{
+            -webkit-transform: rotate(-15deg) translateY(-50%) scale(0.9);
+            transform: rotate(-15deg) translateY(-50%) scale(0.9);
+        }
+        .rotate_text_password{
+            -webkit-transform: rotate(15deg) translateY(-50%) scale(0.9);
+            transform: rotate(15deg) translateY(-50%) scale(0.9);
+        }
+        .rotate_text_username.title_text::before, 
+        .rotate_text_username.title_text::after,
+        .rotate_text_password.title_text::before, 
+        .rotate_text_password.title_text::after{
+            width: 200%;
+        }
+        .title_text::before,.title_text::after{
+            content:'';
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #FBFFB1;
+            -webkit-transition: all 0.35s ease-in-out;
+            transition: all 0.35s ease-in-out;
+        }
+        .title_text::before{
+            top: 0;
+        }
+        .title_text::after{
+            bottom: 0;
+        }
+        .left.title_text::before{
+            right: unset;
+            left: 0;
+        }
+        .right.title_text::before{
+            right: 0;
+            left: unset;
+        }
+        .left.title_text::after{
+            right: 0;
+            left: unset;
+        }
+        .right.title_text::after{
+            right: unset;
+            left: 0;
+        }
+        .rotate_text_password.title_text::after{
+            left: 0;
+            right: unset;
+        }
+        .error-message {
+            display: none;
+            background-color: #FFC107;
+            color: #333;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 0.875rem;
+            animation: fadeIn 0.5s;
+        }
+        .animate__fadeIn {
+            -webkit-animation-name: fadeIn;
+            animation-name: fadeIn
+        }
+        .animate__animated {
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+        @keyframes topBubbles {
+            0%{
+                background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+            }
+            50% {
+                background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+            }
+            100% {
+                background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+                background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
+            }
+        }
+
+        @keyframes bottomBubbles {
+            0%{
+                background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+            }
+            50% {
+                background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+            }
+            100% {
+                background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+                background-size: 0% 0%, 0% 0%,  0% 0%,  0% 0%,  0% 0%,  0% 0%;
+            }
+        }
+    </style>
+</head>
+<body cz-shortcut-listen="true">
+    <div class="form_box">
+        <div class="form_wrapper">
+            <div class="form_title">
+                <div class="title_text" id="ftitle">
+                    <h2><span id="text1">Login</span> your <span id="text2">GPT</span></h2>
+                </div>
+            </div>
+            <div class="error-message" id="error-message">Invalid username or password</div>
+            <div class="form_field">
+                <label for="username">
+                    <svg class="icon">
+                        <use xlink:href="#icon-user">
+                            <symbol id="icon-user" viewBox="0 0 1792 1792">
+                                <path d="M1600 1405q0 120-73 189.5t-194 69.5H459q-121 0-194-69.5T192 1405q0-53 3.5-103.5t14-109T236 1084t43-97.5 62-81 85.5-53.5T538 832q9 0 42 21.5t74.5 48 108 48T896 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T896 896 624.5 783.5 512 512t112.5-271.5T896 128t271.5 112.5T1280 512z" />
+                            </symbol>
+                        </use>
+                    </svg>
+                    <span class="hidden">Username</span>
+                </label>
+                <input type="text" id="username" placeholder="Username">
+            </div>
+            <div class="form_field">
+                <label for="password">
+                    <svg class="icon">
+                        <use xlink:href="#icon-lock">
+                            <symbol id="icon-lock" viewBox="0 0 1792 1792">
+                                <path d="M640 768h512V576q0-106-75-181t-181-75-181 75-75 181v192zm832 96v576q0 40-28 68t-68 28H416q-40 0-68-28t-28-68V864q0-40 28-68t68-28h32V576q0-184 132-316t316-132 316 132 132 316v192h32q40 0 68 28t28 68z" />
+                            </symbol>
+                        </use>
+                    </svg>
+                    <span class="hidden">Password</span>
+                </label>
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            <div class="form_field">
+                <a  id="login">
+                    <ul>
+                        <li>Login</li>
+                        <li>Logging in</li>
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+<script>
+        let btn = document.getElementById('login');
+        let ftitle = document.getElementById('ftitle');
+        let username = document.getElementById('username');
+        let password = document.getElementById('password');
+        let text1 = document.getElementById('text1');
+        let text2 = document.getElementById('text2');
+        let flag = false;
+        username.addEventListener('focus', () => {
+            text1.innerText = 'Enter'
+            text2.innerText = 'USN'
+            ftitle.classList.remove('right');
+            ftitle.classList.add('left');
+            ftitle.classList.add('rotate_text_username');
+        })
+        username.addEventListener('blur', () => {
+            text1.innerText = 'Login'
+            text2.innerText = 'GPT'
+            ftitle.classList.remove('rotate_text_username');
+        })
+        password.addEventListener('focus', () => {
+            text1.innerText = 'Enter'
+            text2.innerText = 'PSW'
+            ftitle.classList.remove('left');
+            ftitle.classList.add('right');
+            ftitle.classList.add('rotate_text_password');
+        })
+        password.addEventListener('blur', () => {
+            text1.innerText = 'Login'
+            text2.innerText = 'GPT'
+            ftitle.classList.remove('rotate_text_password');
+        })
+        let loginEvent = async (e) => {
+            e.preventDefault;
+            if(!flag){
+                btn.classList.remove('animate');
+                btn.classList.add('animate');
+                setTimeout(function(){
+                    btn.classList.remove('animate');
+                },700);
+                btn.classList.add('loading');
+                flag = true;
+
+                //创建FormData对象并添加字段
+                const formData = new FormData();
+                formData.append("username", username.value);
+                formData.append("password", password.value);
+        
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    body: formData
+                });
+        
+                const data = await response.json();
+        
+                if (data.status === "ok") {
+                    // 登录成功，跳转到其他页面
+                    window.location.href = "/";
+                } else {
+                // 显示错误信息提示框
+                    btn.classList.remove('loading');
+                    flag = false;
+                    const errorMessage = document.getElementById("error-message");
+                    errorMessage.style.display = "block";
+                    if (data.message) errorMessage.textContent = data.message;
+                    errorMessage.classList.add('animate__animated', 'animate__fadeIn');
+                }
+            }
+        }
+        btn.addEventListener('click', loginEvent);
+    </script>
+
+</body>
+</html>

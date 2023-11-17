@@ -2,7 +2,7 @@ package main
 
 import (
 	"embed"
-	"github.com/AkashiCoin/gin-template/cmd"
+	"github.com/AkashiCoin/go-chatgpt-api/cmd"
 )
 
 //go:embed web/dist

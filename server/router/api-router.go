@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/AkashiCoin/gin-template/server/controller"
-	"github.com/AkashiCoin/gin-template/server/middleware"
+	"github.com/AkashiCoin/go-chatgpt-api/server/controller"
+	"github.com/AkashiCoin/go-chatgpt-api/server/middleware"
 	"github.com/gin-gonic/gin"
 )
 

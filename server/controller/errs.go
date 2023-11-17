@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/AkashiCoin/gin-template/server/common"
+	"github.com/AkashiCoin/go-chatgpt-api/server/common"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/AkashiCoin/gin-template/internal/conf"
+	"github.com/AkashiCoin/go-chatgpt-api/internal/conf"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )

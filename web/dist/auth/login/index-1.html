@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        .login-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 100%;
+            animation: fadeInDown 0.5s;
+        }
+        h2 {
+            margin: 0 0 1rem;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 0 0 0.5rem;
+        }
+        input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0 0 1rem;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            display: none;
+            background-color: #FFC107;
+            color: #333;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin: 0 0 1rem;
+            animation: fadeIn 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container animate__animated animate__fadeInDown">
+        <h2>Login</h2>
+        <div class="error-message" id="error-message">Invalid username or password</div>
+        <label for="username">Username</label>
+        <input type="text" id="username" />
+        <label for="password">Password</label>
+        <input type="password" id="password" />
+        <button onclick="login()">Login</button>
+    </div>
+    <script>
+        async function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+    
+            // 创建FormData对象并添加字段
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("password", password);
+    
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                body: formData
+            });
+    
+            const data = await response.json();
+    
+            if (data.status === "ok") {
+                // 登录成功，跳转到其他页面
+                window.location.href = "/chat";
+            } else {
+            // 显示错误信息提示框
+                const errorMessage = document.getElementById("error-message");
+                errorMessage.style.display = "block";
+                errorMessage.classList.add('animate__animated', 'animate__fadeIn');
+            }
+        }
+    </script>
+</body>
+</html>

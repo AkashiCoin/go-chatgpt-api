@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e0e0e0;
+        }
+        .title{
+            position: relative;
+            width: 600px;
+            height: 200px;
+            border-radius: 150px;
+            box-shadow: 0 4px 8px #00000040, 0 8px 16px #00000026, 0 16px 32px #00000020;
+            transform: translateZ(0);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.3s ease;
+        }
+        .title:hover{
+            animation: pulse 1s;
+            box-shadow: 0 0 0 3em transparent;
+        }
+        @keyframes pulse {
+            0% {
+                /* box-shadow: 0 0 0 0 #ef8f6e;  */
+                box-shadow: 0 4px 8px #00000040, 0 8px 16px #00000026, 0 16px 32px #00000020;
+            }
+        }
+        .title:active{
+            box-shadow: 0 -2px 1px #ffffff80, 0 -1px 1px #00000080, 0 -4px 1px #ffffff80, 0 4px 1px #ffffff80, 0 1px 1px #00000080, 0 4px 1px #ffffff80;
+        }
+        .shadow {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(150,150,150,0);
+            opacity: .7;
+            border-radius: 150px;
+            box-shadow: inset 0 2px 2px #fff, inset 0 2px 2px #fffc, inset 0 -2px 2px #ffffff80;
+            transition: box-shadow 0.2s ease;
+        }
+        .shadow:active{
+            box-shadow: inset 0 4px 8px #0000001a, inset 0 4px 4px #0003, inset 0 -6px 8px #0000001a;
+        }
+        .text{
+            pointer-events: none;
+            background-image: linear-gradient(-45deg,#FFC796 0%,#FF6B95 100%);
+            -webkit-background-clip: text;
+            text-align: center;
+            width: 70%;
+            font-size: 60px;
+            font-weight: bolder;
+            color: transparent;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            filter: drop-shadow(0px -1px 0px rgba(0,0,0,.5)) drop-shadow(0px 1px 0px rgba(255,255,255,.6));
+            backdrop-filter: blur(2px);
+            cursor: pointer;
+            word-break:keep-all;
+        }
+        .title:hover .text{
+            animation: textPulse 1s;
+            background-image: linear-gradient(45deg,#FFC796 0%,#FF6B95 100%);
+        }
+        @keyframes textPulse {
+            0% {
+                background-image: linear-gradient(-45deg,#FFC796 0%,#FF6B95 100%);
+            }
+            12.5%{
+                background-image: linear-gradient(-33.75deg,#FFC796 0%,#FF6B95 100%);
+            }
+            25% {
+                background-image: linear-gradient(-22.5deg,#FFC796 0%,#FF6B95 100%);
+            }
+            37.5%{
+                background-image: linear-gradient(-11.25deg,#FFC796 0%,#FF6B95 100%);
+            }
+            50% {
+                background-image: linear-gradient(0deg,#FFC796 0%,#FF6B95 100%);
+            }
+            62.5% {
+                background-image: linear-gradient(11.25deg,#FFC796 0%,#FF6B95 100%);
+            }
+            75% {
+                background-image: linear-gradient(22.5deg,#FFC796 0%,#FF6B95 100%);
+            }
+            87.5% {
+                background-image: linear-gradient(33.75deg,#FFC796 0%,#FF6B95 100%);
+            }
+            100%{
+                background-image: linear-gradient(45deg,#FFC796 0%,#FF6B95 100%);
+            }
+        }
+    </style>
+
+    <script>
+        var bl = false;
+        function clear_cookie() {
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if (keys) {
+                for (var i = keys.length; i--;)
+                    document.cookie = keys[i] + '=;expires=' + new Date(0).toUTCString() + ";secure"
+            }
+        }
+        function login(){
+            if(!bl) {
+                bl = true;
+                navigator.clipboard
+                .readText()
+                .then((value) => {
+                    const cookieName = "__Secure-next-auth.session-token";
+                    // 设置Cookie
+                    document.cookie = `${cookieName}=${value.trim()}; Secure; SameSite=Lax`;
+
+                    // 发起GET请求并携带Cookie
+                    fetch("/api/auth/session", { credentials: "include" })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            // 页面跳转
+                            if (data["accessToken"]) {
+                                window.location.href = "/chat"
+                            }
+                            else {
+                                bl = false;
+                                clear_cookie()
+                                window.location.href = "/auth/login"
+                            }
+                        })
+                        .catch(error => {
+                            bl = false;
+                            clear_cookie()
+                            console.error("Error fetching /api/auth/session:", error);
+                            window.location.href = "/auth/login"
+                        });
+                })
+                .catch((v) => {
+                    bl = false;
+                    clear_cookie()
+                    console.log("获取剪贴板失败");
+                    window.location.href = "/auth/login"
+                });
+            }
+            
+        }
+    </script>
+</head>
+<body>
+    <div class="title" onclick="login()">
+        <div class="shadow"></div>
+        <div class="text">ChatGPT-Plus</div>
+    </div>	
+    <p style="position: fixed; bottom: 10px;">__Secure-next-auth.session-token</p>
+</body>
+</html>

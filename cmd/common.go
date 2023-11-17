@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/AkashiCoin/gin-template/internal/bootstrap"
-	"github.com/AkashiCoin/gin-template/internal/db"
-	"github.com/AkashiCoin/gin-template/pkg/utils"
+	"github.com/AkashiCoin/go-chatgpt-api/internal/bootstrap"
+	"github.com/AkashiCoin/go-chatgpt-api/internal/db"
+	"github.com/AkashiCoin/go-chatgpt-api/pkg/utils"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"path/filepath"
@@ -12,6 +12,7 @@ import (
 
 func Init() {
 	bootstrap.InitConfig()
+	bootstrap.InitApi()
 	bootstrap.Log()
 	bootstrap.InitDB()
 }
