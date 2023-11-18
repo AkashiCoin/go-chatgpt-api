@@ -1,13 +1,23 @@
 /_next/static/
 	https://static.suimoe.com/sites/chat.loli.vet/_next/static/
 
-https://chat.loli.vet/
-	https://localhost:443/
+https://cdn.oaistatic.com/
+	https://static.suimoe.com/sites/cdn.oaistatic.com/
+
+https://files.oaiusercontent.com/
+	https://p.102333.xyz/https://files.oaiusercontent.com/
+	req_headers={"*":""}
+
+https://tcr9i.chat.openai.com/
+	https://p.102333.xyz/https://tcr9i.chat.openai.com/
 	req_headers={"*":""}
 
 https://chat.openai.com/
-	https://localhost:443/
+	https://chat.loli.vet/
 	req_headers={"*":""}
 
 @update
 	services=wss://wscdn.loli.vet
+
+@weight
+	chat.loli.vet=100

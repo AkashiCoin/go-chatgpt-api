@@ -130,6 +130,9 @@ func Proxy(c *gin.Context) {
 	}
 
 	for _, cookie := range c.Request.Cookies() {
+		if cookie.Name == "cf_clearance" {
+			continue
+		}
 		req.AddCookie(&http.Cookie{
 			Name:  cookie.Name,
 			Value: cookie.Value,
@@ -157,11 +160,8 @@ func Proxy(c *gin.Context) {
 		c.AbortWithStatusJSON(resp.StatusCode, responseMap)
 		return
 	}
-	for k, v := range resp.Header {
-		for _, value := range v {
-			c.Writer.Header().Set(k, value)
-		}
-	}
+	c.Writer.Header().Set("Content-Type", resp.Header.Get("Content-Type"))
+	c.Writer.Header().Set("Set-Cookie", strings.ReplaceAll(resp.Header.Get("Set-Cookie"), "chat.openai.com", ""+c.Request.Host))
 	io.Copy(c.Writer, resp.Body)
 }
 
