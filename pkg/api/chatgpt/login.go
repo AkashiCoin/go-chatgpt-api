@@ -24,7 +24,7 @@ func Login(c *gin.Context) {
 		c.AbortWithStatusJSON(err.StatusCode, gin.H{"status": "error", "message": err.Details})
 		return
 	}
-	c.Writer.Header().Set("Set-Cookie", fmt.Sprintf("%s=%s; Secure; SameSite=Lax", common.SESSION_TOKEN_KEY, authenticator.Result.SessionToken))
+	c.Writer.Header().Set("Set-Cookie", fmt.Sprintf("%s=%s;Path=/; Secure; SameSite=Lax", common.SESSION_TOKEN_KEY, authenticator.Result.SessionToken))
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":      "ok",

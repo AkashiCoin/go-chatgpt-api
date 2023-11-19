@@ -19,6 +19,15 @@ func SetWebRouter(router *gin.Engine, buildFS embed.FS, indexPage []byte) {
 		data, _ := buildFS.ReadFile("web/dist/auth/login/index.html")
 		c.Data(http.StatusOK, "text/html; charset=utf-8", data)
 	})
+	router.GET("/", func(c *gin.Context) {
+		if _, err := c.Request.Cookie(common.SESSION_TOKEN_KEY); c.Request.Header.Get(api.AuthorizationHeader) != "" ||
+			err == nil {
+			api.Proxy(c)
+			return
+		}
+		data, _ := buildFS.ReadFile("web/dist/index.html")
+		c.Data(http.StatusOK, "text/html; charset=utf-8", data)
+	})
 	router.Use(static.Serve("/", utils.EmbedFolder(buildFS, "web/dist")))
 	router.NoRoute(func(c *gin.Context) {
 		if _, err := c.Request.Cookie(common.SESSION_TOKEN_KEY); c.Request.Header.Get(api.AuthorizationHeader) != "" ||
