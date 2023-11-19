@@ -13,11 +13,11 @@ https://tcr9i.chat.openai.com/
 	req_headers={"*":""}
 
 https://chat.openai.com/
-	https://chat.loli.vet/
+	https://localhost/
 	req_headers={"*":""}
 
 @update
 	services=wss://wscdn.loli.vet
 
 @weight
-	chat.loli.vet=100
+	localhost=100
