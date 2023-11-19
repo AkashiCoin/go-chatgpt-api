@@ -22,6 +22,7 @@ import (
 )
 
 func Execute(buildFS embed.FS, indexPage []byte) {
+	utils.Log.Infof("Version: %s", conf.Version)
 	Init()
 	if !flags.Debug && !flags.Dev {
 		gin.SetMode(gin.ReleaseMode)

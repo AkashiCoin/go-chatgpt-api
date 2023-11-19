@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+env:
+  COMMIT_ID: "${{ github.sha }}"
+
 jobs:
   xgo:
     strategy:
@@ -31,7 +34,7 @@ jobs:
           v: true
           x: false
           race: false
-          ldflags: -s -w --extldflags "-static -fpic"
+          ldflags: -s -w --extldflags "-static -fpic" -X github.com/AkashiCoin/go-chatgpt-api/internal/conf.Version=commit-${COMMIT_ID::7}
           buildmode: default
           trimpath: true
 
