@@ -4,12 +4,12 @@ import (
 	"embed"
 	"github.com/AkashiCoin/go-chatgpt-api/internal/utils"
 	"github.com/AkashiCoin/go-chatgpt-api/pkg/api"
+	"github.com/AkashiCoin/go-chatgpt-api/server/common"
 	"github.com/AkashiCoin/go-chatgpt-api/server/middleware"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strings"
 )
 
 func SetWebRouter(router *gin.Engine, buildFS embed.FS, indexPage []byte) {
@@ -21,7 +21,8 @@ func SetWebRouter(router *gin.Engine, buildFS embed.FS, indexPage []byte) {
 	})
 	router.Use(static.Serve("/", utils.EmbedFolder(buildFS, "web/dist")))
 	router.NoRoute(func(c *gin.Context) {
-		if strings.Contains(c.Request.URL.Path, "api") {
+		if _, err := c.Request.Cookie(common.SESSION_TOKEN_KEY); c.Request.Header.Get(api.AuthorizationHeader) != "" ||
+			err == nil {
 			api.Proxy(c)
 			return
 		}

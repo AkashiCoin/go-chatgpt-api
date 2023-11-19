@@ -16,6 +16,7 @@ import (
 	"github.com/bogdanfinn/tls-client/profiles"
 	"github.com/gin-gonic/gin"
 	logger "github.com/sirupsen/logrus"
+	"github.com/xqdoo00o/funcaptcha"
 )
 
 const (
@@ -49,6 +50,10 @@ const (
 	ReadyHint = "service go-chatgpt-api is ready"
 
 	refreshPuidErrorMessage = "failed to refresh PUID"
+)
+
+const (
+	AuthVersion = iota
 )
 
 var (
@@ -183,12 +188,21 @@ func GetAccessToken(c *gin.Context) string {
 }
 
 func GetArkoseToken(model string) (string, error) {
-	version := "/gpt3"
+	var token string
+	var version string
+	var err error
 	if strings.HasPrefix(model, gpt4Model) {
 		version = "/gpt4"
-	}
-	if strings.HasPrefix(model, Auth) {
+		token, err = funcaptcha.GetOpenAIToken(4, PUID, ProxyUrl)
+	} else if strings.HasPrefix(model, Auth) {
 		version = "/auth"
+		token, err = funcaptcha.GetOpenAIToken(0, PUID, ProxyUrl)
+	} else {
+		version = "/gpt3"
+		token, err = funcaptcha.GetOpenAIToken(3, PUID, ProxyUrl)
+	}
+	if err == nil {
+		return token, err
 	}
 	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("%s%s", arkoseTokenUrl, version), nil)
 	resp, err := ArkoseClient.Do(req)

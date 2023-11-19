@@ -14,6 +14,7 @@ require (
 	github.com/google/uuid v1.4.0
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/sirupsen/logrus v1.9.3
+	github.com/xqdoo00o/funcaptcha v0.0.0-20231116083157-e2a60817e1e4
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/driver/postgres v1.5.4
 	gorm.io/driver/sqlite v1.5.4
