@@ -8,6 +8,9 @@ import (
 
 func SetRelayRouter(router *gin.Engine) {
 	router.POST("/api/auth/login", chatgpt.Login)
+	router.Any("/api/auth/signout", func(c *gin.Context) {
+		c.Redirect(302, "/auth/login")
+	})
 	router.POST("/backend-api/login", chatgpt.Login) // add support for other projects
 
 	conversationGroup := router.Group("/backend-api/conversation", middleware.Authorization())
